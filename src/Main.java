@@ -20,21 +20,35 @@ public class Main {
             busca = leitura.nextLine();
 
             if (busca.equalsIgnoreCase("sair")) {
+                System.out.println("Programa finalizado!");
                 break;
             }
 
             String endereco = "https://viacep.com.br/ws/" + busca + "/json";
             System.out.println(endereco);
 
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(endereco))
-                    .header("Accept", "application/vnd.github.v3+json")
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            try {
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder().uri(URI.create(endereco))
+                        .header("Accept", "application/vnd.github.v3+json")
+                        .build();
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            String json = response.body();
-            System.out.println(json);
-            System.out.println("Busca finalizada com sucesso!");
+                if (response.statusCode() == 400) {
+                    throw new ErroConsultaCepException("Cep não encontrado!");
+                }
+
+                String json = response.body();
+                System.out.println(json);
+
+                System.out.println("Busca finalizada com sucesso!");
+
+            } catch (ErroConsultaCepException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Tente novamente!");
+            }
+
+
         }
 
 
