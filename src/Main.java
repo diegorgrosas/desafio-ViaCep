@@ -1,14 +1,27 @@
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         Scanner leitura = new Scanner(System.in);
         String busca = "";
+        List<String> enderecos = new ArrayList<>();
+
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                .setPrettyPrinting()
+                .create();
 
         System.out.println("==============================================================================");
         System.out.println("                   Bem vindos ao Aplicativo de busca ViaCep!                  ");
@@ -40,6 +53,7 @@ public class Main {
 
                 String json = response.body();
                 System.out.println(json);
+                enderecos.add(json);
 
                 System.out.println("Busca finalizada com sucesso!");
 
@@ -50,6 +64,10 @@ public class Main {
 
 
         }
+
+        FileWriter escrita = new FileWriter("src/arquivo.json");
+        escrita.write((enderecos).toString());
+        escrita.close();
 
 
     }
