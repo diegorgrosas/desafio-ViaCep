@@ -1,7 +1,3 @@
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -18,13 +14,8 @@ public class Main {
         String busca = "";
         List<String> enderecos = new ArrayList<>();
 
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                .setPrettyPrinting()
-                .create();
-
         System.out.println("==============================================================================");
-        System.out.println("                   Bem vindos ao Aplicativo de busca ViaCep!                  ");
+        System.out.println("               Bem vindos ao Aplicativo de busca endereços!                   ");
         System.out.println("==============================================================================");
 
         while (!busca.equalsIgnoreCase("sair")) {
